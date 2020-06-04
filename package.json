@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "parcel src/index.html"
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "bugs": {
     "url": "https://github.com/ashnamuh/ashive/issues"
   },
-  "homepage": "https://github.com/ashnamuh/ashive#readme"
+  "homepage": "https://github.com/ashnamuh/ashive#readme",
+  "devDependencies": {
+    "parcel": "^1.12.4"
+  }
 }
