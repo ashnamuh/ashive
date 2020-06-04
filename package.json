@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/ashnamuh/ashive#readme",
   "devDependencies": {
-    "parcel": "^1.12.4"
+    "parcel": "^1.12.4",
+    "typescript": "^3.9.3"
   }
 }
