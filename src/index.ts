@@ -1,13 +1,7 @@
-console.log('hello world!')
+import { render } from './core'
 
-interface Person {
-  name: string;
-  age: number;
+const Root: Component = (props) => {
+  return `hello`
 }
 
-const ash: Person = {
-  name: 'ash',
-  age: 24
-}
-
-console.table([ash])
+render('root', Root)
