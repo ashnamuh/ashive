@@ -1,4 +1,4 @@
-export const render = (elementId: string, component: Component) => {
+export const render = (elementId: string, component: Component): void => {
   const element = document.getElementById(elementId)
 
   if (!element) {

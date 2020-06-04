@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/ashnamuh/ashive#readme",
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^3.1.0",
+    "@typescript-eslint/parser": "^3.1.0",
+    "eslint": "^7.1.0",
     "parcel": "^1.12.4",
     "typescript": "^3.9.3"
   }
