@@ -9,18 +9,42 @@ export type Method =
 | 'link' | 'LINK'
 | 'unlink' | 'UNLINK'
 
-export interface requestOptions {
+export interface RequestOptions {
   method?: Method;
   data?: any;
 }
 
-const  request = <T = any>(url: string, options?: requestOptions): Promise<T> => {
+export interface Response<T> {
+  data: T;
+  status: number;
+  url: string;
+  request: {
+    url: string;
+    options?: RequestOptions;
+  }
+}
+
+const  request = <T = any>(url: string, options?: RequestOptions): Promise<Response<T>> => {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest() // for supporting IE >= 10
     xhr.onreadystatechange = () => {
       if (xhr.readyState === xhr.DONE) {
         if (xhr.status === 200 || xhr.status === 201) {
-          resolve(xhr.response)
+          let data
+          try {
+            data = JSON.parse(xhr.response)
+          } catch {
+            data = xhr.response
+          }
+          resolve({
+            data,
+            status: xhr.status,
+            url: xhr.responseURL,
+            request: {
+              url,
+              options
+            }
+          })
         } else {
           reject(xhr.response)
         }
