@@ -1,48 +1,57 @@
-import { Component, render } from './core'
+import { Component, FunctionComponent } from './core'
 import request from './lib/request'
 
 import './styles/index.css'
 
-class Child implements Component {
-  constructor() {
-    console.log(11)
-  }
-  render() {
-    console.log('child render')
-    return '<span>hello</span>'
-  }
+const Child: FunctionComponent<{title: string}> = ({ title }) => {
+  return `<span>${title}</span>`
+}
+
+interface Article {
+  title: string;
 }
 
 interface State {
   count: number;
+  articles: Article[];
 }
+
 
 class Root implements Component { // eslint-disable-line
   state: State = {
-    count: 0
+    count: 0,
+    articles: []
   }
-  constructor() {
+  parent: Element
+  constructor(parent: Element) {
+    this.parent = parent
     this.mounted()
+    this.render()
   }
   setState(newState: State) {
     this.state = { ...newState }
+    this.render()
   }
   async mounted () {
-    const res = await fetch('https://conduit.productionready.io/api/articles')
-    console.log(res)
+    const res = await request<{articles: Article[]}>('https://conduit.productionready.io/api/articles')
+    this.setState({ count: 1, articles: res.data.articles })
+  }
+  async fetch () {
+    const res = await request<{articles: Article[]}>('https://conduit.productionready.io/api/articles?tag=dev')
+    this.setState({ count: 1, articles: res.data.articles })
   }
   click() {
-    console.log('clicked')
+    this.fetch()
   }
-
   render() {
-    return `<p onClick="this.click()">${this.state.count}${render(Child)}</p>`
+    const view = `<p id="p">${this.state.count}${this.state.articles.map(a => Child({ title: a.title }))}</p>`
+    this.parent.innerHTML = view
+    const id = document.getElementById('p')
+    id!.addEventListener('click', () => {
+      this.click()
+    })
   }
 }
 
-(async () => {
-  console.log(1)
-  const r = await request('https://conduit.productionready.io/api/articles')
-  console.log(2)
-  console.log(r)
-})()
+const r = document.getElementById('root') as Element
+const root = new Root(r)
