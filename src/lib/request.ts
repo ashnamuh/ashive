@@ -51,7 +51,12 @@ const  request = <T = any>(url: string, options?: RequestOptions): Promise<Respo
       }
     }
     xhr.open(options?.method || 'get', url)
-    xhr.send()
+    if (options?.data) {
+      xhr.setRequestHeader('Content-Type', 'application/json')
+      xhr.send(JSON.stringify(options.data))
+    } else {
+      xhr.send()
+    }
   })
 }
 
