@@ -28,3 +28,20 @@ export default () => {
     render()
   })
 }
+
+export const getQueryString = (search: string): any => {
+  return search
+    ? (/^[?#]/.test(search) ? search.slice(1) : search)
+      .split('&')
+      .reduce((params, param) => {
+        const [key, value] = param.split('=')
+        params[key] = value ? decodeURIComponent(value.replace(/\+/g, ' ')) : ''
+        return params
+      }, {}
+      )
+    : {}
+}
+
+export const parseQueryString = (params: object): string => {
+  return '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&')
+}
