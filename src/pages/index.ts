@@ -1,5 +1,5 @@
 
-import { Component } from '../core'
+import { Component } from '../types/core'
 
 export default class MainPage implements Component { // eslint-disable-line
   parent: Element
